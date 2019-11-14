@@ -1,8 +1,7 @@
 import urllib.request
 import json
 
-
-def printPub(paper):
+def printLocationDBLP(paper):
   last = ""
   if 'pages' in paper:
     last = ":"
@@ -16,6 +15,13 @@ def printPub(paper):
     print(" " + paper['pages'], end="")
   if 'volume' in paper:
     print(" (" + paper['year'] + ")",end="")
+
+def printLocationShort(paper):
+  print(paper['venue'], end=" ")
+  if 'volume' not in paper:
+      print(paper['year'], end="")
+  else:
+    print("(" + paper['year'] + ")",end="")
 
 def lookahead(iterable):
     """Pass through all values from the given iterable, augmented by the
@@ -60,7 +66,7 @@ def sortByYear(val):
 
 
 keys = list(papers.keys())
-keys.sort(key = sortByYear)
+keys.sort(key = sortByYear, reverse = True)
 
 year = '0'
 for key in keys:
@@ -79,14 +85,11 @@ for key in keys:
           print(author,":"),
       else:
         print('and', author,end=":<br>\n")
-  last = " "
-  if 'pages' in paper:
-      last = ": "
 
   print("<strong>" + paper['title']+ "</strong><br>")
   for pub, morepub in lookahead(papers[key]):
       print("<a href='" + pub["ee"] + "'>")
-      printPub(pub)
+      printLocationShort(pub)
       print("</a>")
       if morepub:
         print("&nbsp;|&nbsp;")
