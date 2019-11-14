@@ -1,6 +1,6 @@
 import urllib.request
-import collections
 import json
+
 
 def printPub(paper):
   last = ""
@@ -46,7 +46,7 @@ def getMyTitleKey(title):
 page = urllib.request.urlopen('https://dblp.org/search/publ/api?q=author%3APhilipp%20Zschoche%3A&format=json')
 result = json.loads(page.read())
 #print(result['result']['hits']['hit'])
-papers = {}
+papers = dict()
 for x in result['result']['hits']['hit']:
   paper = x['info']
   title = getMyTitleKey(paper['title'])
@@ -55,11 +55,17 @@ for x in result['result']['hits']['hit']:
   else:
     papers[title] = [paper]
 
-#print(papers)
 
+
+def sortByYear(val):
+    return int(papers[val][0]["year"])
+
+
+keys = list(papers.keys())
+keys.sort(key = sortByYear)
 
 year = '0'
-for key in papers:
+for key in keys:
   paper = papers[key][0]
   if year != paper['year']:
       year = paper['year']
