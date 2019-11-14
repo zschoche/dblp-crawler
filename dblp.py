@@ -2,26 +2,30 @@ import urllib.request
 import json
 
 def printLocationDBLP(paper):
-  last = ""
-  if 'pages' in paper:
-    last = ":"
-  print(paper['venue'], end=" ")
-  if 'volume' not in paper:
-    print(paper['year'], end=last)
-  else:
-    print(paper['volume'], end=last)
+    last = ""
+    if 'pages' in paper:
+        last = ":"
+    print(paper['venue'], end=" ")
+    if 'volume' not in paper:
+        print(paper['year'], end=last)
+    else:
+        print(paper['volume'], end=last)
 
-  if 'pages' in paper:
-    print(" " + paper['pages'], end="")
-  if 'volume' in paper:
-    print(" (" + paper['year'] + ")",end="")
+    if 'pages' in paper:
+        print(" " + paper['pages'], end="")
+    if 'volume' in paper:
+        print(" (" + paper['year'] + ")",end="")
 
 def printLocationShort(paper):
-  print(paper['venue'], end=" ")
-  if 'volume' not in paper:
-      print(paper['year'], end="")
-  else:
-    print("(" + paper['year'] + ")",end="")
+    if paper['venue'] == 'CoRR':
+        print("arXiv", end=" ")
+    else:
+        print(paper['venue'], end=" ")
+
+    if 'volume' not in paper:
+        print(paper['year'], end="")
+    else:
+        print("(" + paper['year'] + ")",end="")
 
 def lookahead(iterable):
     """Pass through all values from the given iterable, augmented by the
@@ -53,12 +57,12 @@ page = urllib.request.urlopen('https://dblp.org/search/publ/api?q=author%3APhili
 papers = dict()
 result = json.loads(page.read().decode("utf8"))
 for x in result['result']['hits']['hit']:
-  paper = x['info']
-  title = getMyTitleKey(paper['title'])
-  if title in papers:
-    papers[title].append(paper)
-  else:
-    papers[title] = [paper]
+    paper = x['info']
+    title = getMyTitleKey(paper['title'])
+    if title in papers:
+        papers[title].append(paper)
+    else:
+        papers[title] = [paper]
 
 
 def sortByYear(val):
@@ -70,32 +74,28 @@ keys.sort(key = sortByYear, reverse = True)
 
 year = '0'
 for key in keys:
-  paper = papers[key][0]
-  if year != paper['year']:
-      year = paper['year']
-      print("<h3>" + year + "</h3>")
-  else:
-      print()
+    paper = papers[key][0]
+    if year != paper['year']:
+        year = paper['year']
+        print("<h3>" + year + "</h3><hr>")
+    else:
+        print()
 
-  print("<p>")
-  for author, more in lookahead(paper['authors']['author']):
-      if more:
-        print(author, end =", "),
-      elif len(paper['authors']['author']) == 1:
-          print(author,":"),
-      else:
-        print('and', author,end=":<br>\n")
+    print("<p>")
+    for author, more in lookahead(paper['authors']['author']):
+        if more:
+            print(author, end =", "),
+        elif len(paper['authors']['author']) == 1:
+            print(author,":"),
+        else:
+            print('and', author,end=":<br>\n")
 
-  print("<strong>" + paper['title']+ "</strong><br>")
-  for pub, morepub in lookahead(papers[key]):
-      print("<a href='" + pub["ee"] + "'>")
-      printLocationShort(pub)
-      print("</a>")
-      if morepub:
-        print("&nbsp;|&nbsp;")
-  print("</p>")
-
-
-      
-
+    print("<strong>" + paper['title']+ "</strong><br>")
+    for pub, morepub in lookahead(papers[key]):
+        print("<a href='" + pub["ee"] + "'>")
+        printLocationShort(pub)
+        print("</a>")
+        if morepub:
+            print("&nbsp;|&nbsp;")
+    print("</p>")
 
