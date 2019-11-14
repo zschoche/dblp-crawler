@@ -43,8 +43,7 @@ def getMyTitleKey(title):
 
 
 page = urllib.request.urlopen('https://dblp.org/search/publ/api?q=author%3APhilipp%20Zschoche%3A&format=json')
-result = json.loads(page.read())
-#print(result['result']['hits']['hit'])
+result = json.loads(page.read().decode("utf8"))
 papers = dict()
 for x in result['result']['hits']['hit']:
   paper = x['info']
@@ -53,9 +52,6 @@ for x in result['result']['hits']['hit']:
     papers[title].append(paper)
   else:
     papers[title] = [paper]
-
-#print(papers)
-
 
 year = '0'
 for key in papers:
