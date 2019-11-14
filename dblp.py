@@ -67,11 +67,11 @@ for key in keys:
   paper = papers[key][0]
   if year != paper['year']:
       year = paper['year']
-      print("<h1>" + year + "</h1>")
+      print("<h3>" + year + "</h3>")
   else:
       print()
 
-
+  print("<p>")
   for author, more in lookahead(paper['authors']['author']):
       if more:
         print(author, end =", "),
@@ -83,14 +83,14 @@ for key in keys:
   if 'pages' in paper:
       last = ": "
 
-  print("<b>" + paper['title']+ "</b><br>")
+  print("<strong>" + paper['title']+ "</strong><br>")
   for pub, morepub in lookahead(papers[key]):
       print("<a href='" + pub["ee"] + "'>")
       printPub(pub)
       print("</a>")
       if morepub:
         print("&nbsp;|&nbsp;")
-  print("<br><br>")
+  print("</p>")
 
 
       
