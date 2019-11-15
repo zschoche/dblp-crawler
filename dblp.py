@@ -75,11 +75,11 @@ keys.sort(key = sortByYear, reverse = True)
 year = '0'
 for key in keys:
     paper = papers[key][0]
-    if year != paper['year']:
-        year = paper['year']
-        print("<h3>" + year + "</h3><hr>")
-    else:
-        print()
+#    if year != paper['year']:
+        #year = paper['year']
+        #print("<h3>" + year + "</h3><hr>")
+    #else:
+    #    print()
 
     print("<p>")
     for author, more in lookahead(paper['authors']['author']):
