@@ -91,11 +91,12 @@ for key in keys:
             print('and', author,end=":<br>\n")
 
     print("<strong>" + paper['title']+ "</strong><br>")
-    for pub, morepub in lookahead(papers[key]):
+    for pub in papers[key]:
         print("<a href='" + pub["ee"] + "'>")
         printLocationShort(pub)
         print("</a>")
-        if morepub:
-            print("&nbsp;|&nbsp;")
+        print("&nbsp;|&nbsp;")
+
+    print("<a href='https://dblp.org/rec/bibtex/" + paper["key"] + "'>BibTeX</a>")
     print("</p>")
 
