@@ -1,5 +1,10 @@
 import urllib.request
+import locale
+import codecs
+import sys
 import json
+
+sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 def printLocationDBLP(paper):
     last = ""
@@ -55,7 +60,7 @@ def getMyTitleKey(title):
 
 page = urllib.request.urlopen('https://dblp.org/search/publ/api?q=author%3APhilipp%20Zschoche%3A&format=json')
 papers = dict()
-result = json.loads(page.read().decode("utf8"))
+result = json.loads(page.read().decode("utf-8"))
 for x in result['result']['hits']['hit']:
     paper = x['info']
     title = getMyTitleKey(paper['title'])
