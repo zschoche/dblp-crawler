@@ -73,9 +73,23 @@ for x in result['result']['hits']['hit']:
 def sortByYear(val):
     return int(papers[val][0]["year"])
 
+def sortByYearCount(val):
+    last = 0
+    first = 2100
+    #value = 0
+    for pub in papers[val]:
+        #print(pub)
+        now = int(pub["year"])
+        last = max(last,now)
+        first = min(first,now)
+        #value += now
+    return last*10 + first
+
+#(ord(papers[val][0]["title"][0]) -ord('0'))
 
 keys = list(papers.keys())
-keys.sort(key = sortByYear, reverse = True)
+keys.sort(key = sortByYearCount, reverse = True)
+#print(keys);
 
 year = '0'
 for key in keys:
