@@ -102,7 +102,7 @@ for key in keys:
 
     print("<p>")
     if len(paper['authors']['author']) == 2:
-        print(paper['authors']['author']['text'])
+        print(paper['authors']['author']['text'], end=":<br>\n")
     else:
         for author, more in lookahead(paper['authors']['author']):
             if more:
