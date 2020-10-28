@@ -101,13 +101,16 @@ for key in keys:
     #    print()
 
     print("<p>")
-    for author, more in lookahead(paper['authors']['author']):
-        if more:
-            print(author['text'], end =", "),
-        elif len(paper['authors']['author']) == 1:
-            print(author['text'],":"),
-        else:
-            print('and', author['text'],end=":<br>\n")
+    if len(paper['authors']['author']) == 2:
+        print(paper['authors']['author']['text'])
+    else:
+        for author, more in lookahead(paper['authors']['author']):
+            if more:
+                print(author['text'], end =", "),
+            elif len(paper['authors']['author']) == 1:
+                print(author['text'],":"),
+            else:
+                print('and', author['text'],end=":<br>\n")
 
     print("<strong>" + paper['title']+ "</strong><br>")
     for pub in papers[key]:
