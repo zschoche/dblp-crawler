@@ -51,10 +51,18 @@ def lookahead(iterable):
 
 def getMyTitleKey(title):
     title = title.lower()
+    #print(title)
+    #print("<br>")
     if title == 'the computational complexity of finding separators in temporal graphs.':
         return "the complexity of finding small separators in temporal graphs."
     if title == 'facility location under matroid constraints - fixed-parameter algorithms and applications.':
         return "fixed-parameter algorithms for maximum-profit facility location under matroid constraints."
+    #if title == 'multistage s-t path - confronting similarity with dissimilarity.':
+    #    return "multistage s-t path - confronting similarity with dissimilarity in temporal graphs."
+    if title == 'multistage s-t path - confronting similarity with dissimilarity in temporal graphs.':
+        return "multistage s-t path - confronting similarity with dissimilarity."
+    if title == 'the computational complexity of finding temporal paths under waiting time constraints.':
+        return "finding temporal paths under waiting time constraints."
     return title    
 
 
@@ -78,12 +86,11 @@ def sortByYearCount(val):
     first = 2100
     #value = 0
     for pub in papers[val]:
-        #print(pub)
         now = int(pub["year"])
         last = max(last,now)
         first = min(first,now)
         #value += now
-    return last*10 + first
+    return last*100 + first*10
 
 #(ord(papers[val][0]["title"][0]) -ord('0'))
 
