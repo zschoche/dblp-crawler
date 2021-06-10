@@ -3,6 +3,7 @@ import locale
 import codecs
 import sys
 import json
+from string import digits
 
 sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
@@ -109,15 +110,15 @@ for key in keys:
 
     print("<p>")
     if len(paper['authors']['author']) == 2:
-        print(paper['authors']['author']['text'], end=":<br>\n")
+        print(paper['authors']['author']['text'].rstrip(digits+" "), end=":<br>\n")
     else:
         for author, more in lookahead(paper['authors']['author']):
             if more:
-                print(author['text'], end =", "),
+                print(author['text'].rstrip(digits+" "), end =", "),
             elif len(paper['authors']['author']) == 1:
-                print(author['text'],":"),
+                print(author['text'].rstrip(digits+" "),":"),
             else:
-                print('and', author['text'],end=":<br>\n")
+                print('and', author['text'].rstrip(digits+" "),end=":<br>\n")
 
     print("<strong>" + paper['title']+ "</strong><br>")
     for pub in papers[key]:
