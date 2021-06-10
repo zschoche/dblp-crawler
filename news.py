@@ -17,7 +17,8 @@ page = urllib.request.urlopen('https://dblp.org/pid/194/2380.bib?param=1')
 papers = dict()
 
 def sortDatetime(val):
-    return getTimestamp(val['timestamp']).toordinal()
+    #return getTimestamp(val['timestamp']).toordinal()
+    return int(val['year'])
 
 def getLocation(paper):
     if paper['ENTRYTYPE'] == "article":
@@ -26,20 +27,38 @@ def getLocation(paper):
         else:
             return "in "+paper['journal']
     elif paper['ENTRYTYPE'] == "inproceedings":
-        return "in "+paper['booktitle'].split(',')[0].strip()
-
+        return "on the "+paper['booktitle'].split(',')[0].strip()
 
 bib_database = bibtexparser.loads(page.read().decode("utf-8"))
-print(bib_database.entries)
 bib_database.entries.sort(key=sortDatetime, reverse=True)
-for paper in bib_database.entries:
-    print(getTimestamp(paper['timestamp']).strftime("%d %b %Y"))
-    print(paper['title'])
-    print("appeared "+getLocation(paper)+".")
-    print(paper)
-   #print("together with "+getLocation(paper)+".")
 
-    print("------")
+years= dict()
+for paper in bib_database.entries:
+    if paper['year'] not in years:
+        years[paper['year']] = []
+    years[paper['year']].append(paper)
+
+
+for year in years.keys():
+    print("<h1>{0}</h1>".format(year))
+    years[year].sort(key=sortDatetime, reverse=True)
+    for paper in years[year]:
+        #print("<strong>{0}:</strong> ".format(getTimestamp(paper['timestamp']).strftime("%d %b %Y")),end="")
+        print("Published ")
+        print("<a href=\"{0}\">{1}</a>".format(paper['url'],paper['title'].replace("{","").replace("}","")))
+        print(" "+getLocation(paper)+"<br>")
+        authors = [s.replace("{\\'{e}}", "é").replace("{-}","-").strip() for s in paper["author"].split("and\n")]
+        authors.remove('Philipp Zschoche')
+        if len(authors) == 1:
+            print("together with "+authors[0])
+            print("<br>")
+        if len(authors) > 1:
+            print("together with",end=' ')
+            for name in authors[:-1]:
+                print(name,end=', ')
+            print("and "+authors[-1])
+            print("<br>")
+
 
 
 def sortByYear(val):
