@@ -55,10 +55,10 @@ def getMyTitleKey(title):
     #print("<br>")
     if title == 'the computational complexity of finding separators in temporal graphs.':
         return "the complexity of finding small separators in temporal graphs."
+    if title == 'facility location under matroid constraints - fixed-parameter algorithms and applications.' or title == 'fixed-parameter algorithms for maximum-profit facility location under matroid constraints.':
+        return "representative families for matroid intersections, with applications to location, packing, and covering problems."
     if title == 'facility location under matroid constraints - fixed-parameter algorithms and applications.':
         return "fixed-parameter algorithms for maximum-profit facility location under matroid constraints."
-    #if title == 'multistage s-t path - confronting similarity with dissimilarity.':
-    #    return "multistage s-t path - confronting similarity with dissimilarity in temporal graphs."
     if title == 'multistage s-t path - confronting similarity with dissimilarity in temporal graphs.':
         return "multistage s-t path - confronting similarity with dissimilarity."
     if title == 'the computational complexity of finding temporal paths under waiting time constraints.':
