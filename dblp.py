@@ -98,8 +98,6 @@ for key in keys:
         print("</a>")
         print("&nbsp;|&nbsp;")
 
-    print("<a href='https://dblp.org/rec/bibtex/" + paper["biburl"] + "'>BibTeX</a>")
+    print("<a href='" + paper["biburl"] + "'>BibTeX</a>")
     print("</p>")
 
-
-    print("------------------------------")
