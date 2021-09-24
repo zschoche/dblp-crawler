@@ -89,7 +89,8 @@ for key in keys:
             if authors[-1] == name:
                 print("and "+name, end="")
             else:
-                print(name+", ", end="")
+                print(name, end="")
+                print(", ", end="")
     print(":<br>")
     print("<strong>" + paper['title'].replace("{","").replace("}","")+ "</strong><br>")
     for pub in papers[key]:
