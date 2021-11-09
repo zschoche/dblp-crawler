@@ -13,7 +13,7 @@ def getLocation(paper):
     if paper["ENTRYTYPE"] == "article":
         loc = paper["journal"]
         if loc == "CoRR":
-            loc = "ariXv"
+            loc = "arXiv"
         return loc + " ("+paper["year"]+")"
     else:
         loc = paper["ID"]
