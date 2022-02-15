@@ -82,7 +82,7 @@ for key in keys:
     authors = [s.replace("{\\'{e}}", "é").replace("{-}","-").strip() for s in paper["author"].split("and\n")]
     if len(authors) == 1:
         print(authors[0], end="")
-    if len(authors) == 2:
+    elif len(authors) == 2:
         print(authors[0] + " and " + authors[1], end="")
     else:
         for name in authors:
