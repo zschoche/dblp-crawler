@@ -14,7 +14,8 @@ def getLocation(paper):
         loc = paper["journal"]
         if loc == "CoRR":
             loc = "arXiv"
-        return loc + " ("+paper["year"]+")"
+    elif paper["ENTRYTYPE"] == "phdthesis":
+        return paper["school"] + " ("+paper["year"]+")"
     else:
         loc = paper["ID"]
         loc = re.sub('^.*?/', '', loc)
@@ -32,7 +33,7 @@ def getMyTitleKey(title):
     if title == 'facility location under matroid constraints: fixed-parameter algorithms and applications' or title == 'fixed-parameter algorithms for maximum-profit facility location under matroid constraints':
         return "representative families for matroid intersections, with applications to location, packing, and covering problems"
     if title == 'facility location under matroid constraints - fixed-parameter algorithms and applications':
-        return "fixed-parameter algorithms for maximum-profit facility location under matroid constraints"
+       return "fixed-parameter algorithms for maximum-profit facility location under matroid constraints"
     if title == 'multistage s-t path: confronting similarity with dissimilarity in temporal graphs':
         return "multistage s-t path: confronting similarity with dissimilarity"
     if title == 'the computational complexity of finding temporal paths under waiting time constraints':
@@ -44,6 +45,9 @@ def getTimestamp(text):
     return datetime.strptime(text, '%a, %d %b %Y %H:%M:%S %z')
 
 page = urllib.request.urlopen('https://dblp.org/pid/194/2380.bib?param=1')
+text =page.read().decode("utf-8")
+text += "@phdthesis{PZ22,\n\tauthor = {Philipp Zschoche},\n\t title = {Parameterized algorithmics for time-evolving structures: temporalizing and multistaging},\n\tschool = {Technische Universität Berlin},\n\tyear = {2022},\n\ttype = {Doctoral Thesis},\n\taddress = {Berlin},\n\tdoi = {10.14279/depositonce-16124},\n\turl = {http://dx.doi.org/10.14279/depositonce-16124},\n\tbiburl = {https:/zschoche.org/pz-diss.bib}\n}"
+
 papers = dict()
 
 def sortDatetime(val):
@@ -51,7 +55,7 @@ def sortDatetime(val):
     return int(val['year'])
 
 
-bib_database = bibtexparser.loads(page.read().decode("utf-8"))
+bib_database = bibtexparser.loads(text)
 bib_database.entries.sort(key=sortDatetime, reverse=True)
 
 papers = dict()
