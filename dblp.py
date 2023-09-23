@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 
 def getLocation(paper):
     if paper["ENTRYTYPE"] == "article":
-        loc = paper["journal"]
+        loc = paper["journal"].replace("{","").replace("}","")
         if loc == "CoRR":
             loc = "arXiv"
         return loc + " ("+paper["year"]+")"
@@ -29,6 +29,8 @@ def getLocation(paper):
 
 def getMyTitleKey(title):
     title = title.strip().replace("\n"," ").lower()
+    if title == R"using a geometric lens to find {\textbackslash}({\textbackslash}boldsymbol\{k\}{\textbackslash})-disjoint shortest paths" or title == "using a geometric lens to find k disjoint shortest paths":
+        return "using a geometric lens to find k-disjoint shortest paths"
     if title == 'the computational complexity of finding separators in temporal graphs':
         return "the complexity of finding small separators in temporal graphs"
     if title == 'facility location under matroid constraints: fixed-parameter algorithms and applications' or title == 'fixed-parameter algorithms for maximum-profit facility location under matroid constraints':
@@ -47,7 +49,7 @@ def getTimestamp(text):
 
 page = urllib.request.urlopen('https://dblp.org/pid/194/2380.bib?param=1')
 text =page.read().decode("utf-8")
-text += "@phdthesis{PZ22,\n\tauthor = {Philipp Zschoche},\n\t title = {Parameterized algorithmics for time-evolving structures: temporalizing and multistaging},\n\tschool = {Technische Universität Berlin},\n\tyear = {2022},\n\ttype = {Doctoral Thesis},\n\taddress = {Berlin},\n\tdoi = {10.14279/depositonce-16124},\n\turl = {http://dx.doi.org/10.14279/depositonce-16124},\n\tbiburl = {https:/zschoche.org/pz-diss.bib}\n}"
+text += "@phdthesis{PZ22,\n\tauthor = {Philipp Zschoche},\n\t title = {Parameterized algorithmics for time-evolving structures: temporalizing and multistaging},\n\tschool = {Technische Universität Berlin},\n\tyear = {2022},\n\ttype = {Doctoral Thesis},\n\taddress = {Berlin},\n\tdoi = {10.14279/depositonce-16124},\n\turl = {https://dx.doi.org/10.14279/depositonce-16124},\n\tbiburl = {https://zschoche.org/pz-diss.bib}\n}"
 
 papers = dict()
 
@@ -97,7 +99,12 @@ for key in keys:
                 print(name, end="")
                 print(", ", end="")
     print(":<br>")
-    print("<strong>" + paper['title'].replace("{","").replace("}","")+ "</strong><br>")
+    title = paper['title'].replace("\{","").replace("\}","")
+    title = title.replace("{","").replace("}","")
+    title = title.replace("\\textbackslash(","").replace("\\textbackslash)","")
+    title = title.replace("\\textbackslash(","").replace("\\textbackslash)","")
+    title = title.replace("\\textbackslashboldsymbol","")
+    print("<strong>{}</strong><br>".format(title))
     for pub in papers[key]:
         print("<a href='" + pub["url"] + "'>")
         print(getLocation(pub))
