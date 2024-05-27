@@ -49,7 +49,6 @@ def getTimestamp(text):
 
 page = urllib.request.urlopen('https://dblp.org/pid/194/2380.bib?param=1')
 text =page.read().decode("utf-8")
-text += "@phdthesis{PZ22,\n\tauthor = {Philipp Zschoche},\n\t title = {Parameterized algorithmics for time-evolving structures: temporalizing and multistaging},\n\tschool = {Technische Universität Berlin},\n\tyear = {2022},\n\ttype = {Doctoral Thesis},\n\taddress = {Berlin},\n\tdoi = {10.14279/depositonce-16124},\n\turl = {https://dx.doi.org/10.14279/depositonce-16124},\n\tbiburl = {https://zschoche.org/pz-diss.bib}\n}"
 
 papers = dict()
 
@@ -102,12 +101,13 @@ for key in keys:
     title = paper['title'].replace("\{","").replace("\}","")
     title = title.replace("{","").replace("}","")
     title = title.replace("\\textbackslash(","").replace("\\textbackslash)","")
-    title = title.replace("\\textbackslash(","").replace("\\textbackslash)","")
     title = title.replace("\\textbackslashboldsymbol","")
+    title = title.replace("\\\"u","ue")
+    title = title.replace("\\\"a","ae")
     print("<strong>{}</strong><br>".format(title))
     for pub in papers[key]:
         print("<a href='" + pub["url"] + "'>")
-        print(getLocation(pub))
+        print(getLocation(pub).replace("{","").replace("}",""))
         print("</a>")
         print("&nbsp;|&nbsp;")
 
